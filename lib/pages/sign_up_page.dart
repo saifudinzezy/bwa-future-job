@@ -14,10 +14,10 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   bool isUploaded = false;
 
-  TextEditingController nameController = TextEditingController(text: '');
-  TextEditingController emailController = TextEditingController(text: '');
-  TextEditingController passwordController = TextEditingController(text: '');
-  TextEditingController motivationController = TextEditingController(text: '');
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController motivationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

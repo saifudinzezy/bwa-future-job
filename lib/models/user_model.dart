@@ -1,9 +1,9 @@
 class UserModel {
-  String id;
-  String email;
-  String password;
-  String name;
-  String goal;
+  String? id;
+  String? email;
+  String? password;
+  String? name;
+  String? goal;
 
   UserModel(
       {required this.id,

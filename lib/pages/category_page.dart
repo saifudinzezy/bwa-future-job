@@ -24,7 +24,7 @@ class CategoryPage extends StatelessWidget {
                   child: Container(
                       width: double.infinity,
                       height: 260,
-                      child: Image.asset(
+                      child: Image.network(
                         imageUrl,
                         fit: BoxFit.cover,
                       )),

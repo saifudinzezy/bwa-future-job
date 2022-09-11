@@ -83,11 +83,8 @@ class HomePage extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         children: snapshot.data!
                             .map(
-                              (category) =>
-                              CategoryCard(
-                                  name: category.name,
-                                  imageUrl: category.imageUrl),
-                        )
+                              (category) => CategoryCard(category),
+                            )
                             .toList(),
                       );
                     }
@@ -116,13 +113,13 @@ class HomePage extends StatelessWidget {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: snapshot.data!.map((job) => JobTile(
-                            name: job.name,
-                            companyName: job.companyName,
-                            companyLogo: job.companyLogo)).toList(),
+                        children:
+                            snapshot.data!.map((job) => JobTile(job)).toList(),
                       );
                     }
-                    return Center(child: CircularProgressIndicator(),);
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
                   }),
             ],
           ),

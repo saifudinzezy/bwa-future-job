@@ -4,12 +4,17 @@ import 'package:future_jobs/providers/job_provider.dart';
 import 'package:future_jobs/theme.dart';
 import 'package:future_jobs/widgets/job_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:future_jobs/models/Category_model.dart';
 
 class CategoryPage extends StatelessWidget {
-  final String name;
-  final String imageUrl;
+  //refactory
+  // final String name;
+  // final String imageUrl;
+  final CategoryModel category;
 
-  CategoryPage({required this.imageUrl, required this.name});
+  //refactory
+  // CategoryPage({required this.imageUrl, required this.name});
+  CategoryPage(this.category);
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +34,14 @@ class CategoryPage extends StatelessWidget {
                       width: double.infinity,
                       height: 260,
                       child: Image.network(
-                        imageUrl,
+                        category.imageUrl,
                         fit: BoxFit.cover,
                       )),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 190, left: 24),
                   child: Text(
-                    name,
+                    category.name,
                     style: whiteTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: semiBold,
@@ -80,19 +85,19 @@ class CategoryPage extends StatelessWidget {
               height: 24,
             ),
             FutureBuilder<List<JobsModel>>(
-                future: jobProvider.getJobsByCategory(name),
+                future: jobProvider.getJobsByCategory(category.name),
                 builder: (context, snapshot) {
                   print(snapshot.data);
                   if (snapshot.connectionState == ConnectionState.done) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: snapshot.data!.map((job) => JobTile(
-                          name: job.name,
-                          companyName: job.companyName,
-                          companyLogo: job.companyLogo)).toList(),
+                      children:
+                          snapshot.data!.map((job) => JobTile(job)).toList(),
                     );
                   }
-                  return Center(child: CircularProgressIndicator(),);
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }),
           ],
         ),
@@ -126,13 +131,13 @@ class CategoryPage extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: snapshot.data!.map((job) => JobTile(
-                          name: job.name,
-                          companyName: job.companyName,
-                          companyLogo: job.companyLogo)).toList(),
+                      children:
+                          snapshot.data!.map((job) => JobTile(job)).toList(),
                     );
                   }
-                  return Center(child: CircularProgressIndicator(),);
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }),
           ],
         ),

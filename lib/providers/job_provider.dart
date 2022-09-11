@@ -6,7 +6,7 @@ import 'package:future_jobs/models/Jobs_model.dart';
 import 'package:http/http.dart' as http;
 
 class JobProvider with ChangeNotifier {
-  Future<List<JobsModel>?> getJobs() async {
+  Future<List<JobsModel>> getJobs() async {
     try {
       //your code
       var responses = await http.get(
@@ -15,6 +15,7 @@ class JobProvider with ChangeNotifier {
 
       print(responses.statusCode);
       print(responses.body);
+      print('end job');
 
       if (responses.statusCode == 200) {
         List<JobsModel> jobs = [];

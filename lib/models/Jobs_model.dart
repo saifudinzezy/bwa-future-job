@@ -31,9 +31,9 @@ class JobsModel {
   late String companyName;
   late String companyLogo;
   late String location;
-  late List<String> about;
-  late List<String> qualifications;
-  late List<String> responsibilities;
+  late List about;
+  late List qualifications;
+  late List responsibilities;
   late int createdAt;
   late int updatedAt;
 

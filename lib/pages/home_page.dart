@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:future_jobs/models/Category_model.dart';
+import 'package:future_jobs/models/Jobs_model.dart';
 import 'package:future_jobs/providers/category_provider.dart';
+import 'package:future_jobs/providers/job_provider.dart';
 import 'package:future_jobs/providers/user_provider.dart';
 import 'package:future_jobs/theme.dart';
 import 'package:future_jobs/widgets/category_card.dart';
@@ -12,6 +14,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
     var categoryProvider = Provider.of<CategoryProvider>(context);
+    var jobProvider = Provider.of<JobProvider>(context);
 
     Widget header() {
       return SafeArea(
@@ -80,10 +83,11 @@ class HomePage extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         children: snapshot.data!
                             .map(
-                              (category) => CategoryCard(
+                              (category) =>
+                              CategoryCard(
                                   name: category.name,
                                   imageUrl: category.imageUrl),
-                            )
+                        )
                             .toList(),
                       );
                     }
@@ -105,21 +109,21 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
-              JobTile(
-                companyLogo: 'assets/icon_google.png',
-                name: 'Front-End Developer',
-                companyName: 'Google',
-              ),
-              JobTile(
-                companyLogo: 'assets/icon_instagram.png',
-                name: 'UI Designer',
-                companyName: 'Instagram',
-              ),
-              JobTile(
-                companyLogo: 'assets/icon_facebook.png',
-                name: 'Data Scientist',
-                companyName: 'Facebook',
-              ),
+              FutureBuilder<List<JobsModel>>(
+                  future: jobProvider.getJobs(),
+                  builder: (context, snapshot) {
+                    print(snapshot.data);
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: snapshot.data!.map((job) => JobTile(
+                            name: job.name,
+                            companyName: job.companyName,
+                            companyLogo: job.companyLogo)).toList(),
+                      );
+                    }
+                    return Center(child: CircularProgressIndicator(),);
+                  }),
             ],
           ),
         ),

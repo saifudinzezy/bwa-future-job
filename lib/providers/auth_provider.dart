@@ -28,8 +28,8 @@ class AuthProvider with ChangeNotifier {
         body: body,
       );
 
-      print(response.statusCode);
-      print(response.body);
+      // print(response.statusCode);
+      // print(response.body);
 
       if (response.statusCode == 200) {
         return UserModel.fromJson(jsonDecode(response.body));
@@ -59,8 +59,8 @@ class AuthProvider with ChangeNotifier {
         body: body,
       );
 
-      print(response.statusCode);
-      print(response.body);
+      // print(response.statusCode);
+      // print(response.body);
 
       if (response.statusCode == 200) {
         return UserModel.fromJson(jsonDecode(response.body));

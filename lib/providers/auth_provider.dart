@@ -14,11 +14,12 @@ class AuthProvider with ChangeNotifier {
       //disesuakan dg body
       var body = {
         'email': email,
-        'passwprd': password,
+        'password': password,
         'name': name,
         'goal': goal
       };
 
+      print(body);
       var response = await http.post(
         Uri.parse('https://bwa-jobs.herokuapp.com/register'),
         body: body,

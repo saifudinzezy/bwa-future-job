@@ -13,306 +13,315 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool isUploaded = false;
+  bool isLoading = false;
 
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController motivationController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-    var authProvider = Provider.of<AuthProvider>(context);
-    var userProvider = Provider.of<UserProvider>(context);
-    void showError(String message) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: redColor,
-          content: Text(message),
-        ),
-      );
-    }
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: redColor,
+        content: Text(message),
+      ),
+    );
+  }
 
-    Widget header() {
-      return Container(
-        margin: EdgeInsets.only(top: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Sign Up',
-              style: greyTextStyle.copyWith(
-                fontSize: 16,
-              ),
-            ),
-            SizedBox(
-              height: 2,
-            ),
-            Text(
-              'Begin New Journey',
-              style: blackTextStyle.copyWith(
-                fontSize: 24,
-                fontWeight: semiBold,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Widget ShowImages() {
-      return Center(
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              isUploaded = !isUploaded;
-            });
-          },
-          child: Container(
-            width: 120,
-            height: 120,
-            margin: EdgeInsets.only(top: 50),
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: primaryColor,
-              ),
-            ),
-            child: Image.asset(
-              'assets/image_profile.png',
+  Widget header() {
+    return Container(
+      margin: EdgeInsets.only(top: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Sign Up',
+            style: greyTextStyle.copyWith(
+              fontSize: 16,
             ),
           ),
-        ),
-      );
-    }
-
-    Widget UploadImage() {
-      return Center(
-        child: InkWell(
-          onTap: () {
-            setState(() {
-              isUploaded = !isUploaded;
-            });
-          },
-          child: Container(
-            width: 120,
-            height: 120,
-            margin: EdgeInsets.only(top: 50),
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: primaryColor,
-              ),
-            ),
-            child: Image.asset(
-              'assets/icon_upload.png',
+          SizedBox(
+            height: 2,
+          ),
+          Text(
+            'Begin New Journey',
+            style: blackTextStyle.copyWith(
+              fontSize: 24,
+              fontWeight: semiBold,
             ),
           ),
-        ),
-      );
-    }
+        ],
+      ),
+    );
+  }
 
-    Widget inputName() {
-      return Container(
-        margin: EdgeInsets.only(top: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Full Name',
-              style: greyTextStyle.copyWith(
-                fontSize: 16,
-              ),
+  Widget ShowImages() {
+    return Center(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            isUploaded = !isUploaded;
+          });
+        },
+        child: Container(
+          width: 120,
+          height: 120,
+          margin: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: primaryColor,
             ),
-            SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              controller: nameController,
-              cursorColor: primaryColor,
-              onChanged: (value) {
-                setState(() {});
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
-                fillColor: Color(0xffF1F0F5),
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: primaryColor,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                hintText: '',
-              ),
-              style: purpleTextStyle,
-            ),
-          ],
+          ),
+          child: Image.asset(
+            'assets/image_profile.png',
+          ),
         ),
-      );
-    }
+      ),
+    );
+  }
 
-    Widget inputEmail() {
-      return Container(
-        margin: EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Email Address',
-              style: greyTextStyle.copyWith(
-                fontSize: 16,
-              ),
+  Widget UploadImage() {
+    return Center(
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            isUploaded = !isUploaded;
+          });
+        },
+        child: Container(
+          width: 120,
+          height: 120,
+          margin: EdgeInsets.only(top: 50),
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: primaryColor,
             ),
-            SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              controller: emailController,
-              cursorColor: primaryColor,
-              onChanged: (value) {
-                setState(() {});
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
-                fillColor: Color(0xffF1F0F5),
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: EmailValidator.validate(emailController.text)
-                        ? primaryColor
-                        : Colors.red,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                hintText: '',
-              ),
-              style: EmailValidator.validate(emailController.text)
-                  ? purpleTextStyle
-                  : redTextStyle,
-            ),
-          ],
+          ),
+          child: Image.asset(
+            'assets/icon_upload.png',
+          ),
         ),
-      );
-    }
+      ),
+    );
+  }
 
-    Widget inputPassword() {
-      return Container(
-        margin: EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Password',
-              style: greyTextStyle.copyWith(
-                fontSize: 16,
+  Widget inputName() {
+    return Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Full Name',
+            style: greyTextStyle.copyWith(
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          TextFormField(
+            controller: nameController,
+            cursorColor: primaryColor,
+            onChanged: (value) {
+              setState(() {});
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
+              fillColor: Color(0xffF1F0F5),
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              controller: passwordController,
-              cursorColor: primaryColor,
-              obscureText: true,
-              onChanged: (value) {
-                setState(() {});
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
-                fillColor: Color(0xffF1F0F5),
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide(
+                  color: primaryColor,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: primaryColor,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                hintText: '',
               ),
-              style: purpleTextStyle,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: '',
             ),
-          ],
-        ),
-      );
-    }
+            style: purpleTextStyle,
+          ),
+        ],
+      ),
+    );
+  }
 
-    Widget inputGoal() {
-      return Container(
-        margin: EdgeInsets.only(top: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Your Goal',
-              style: greyTextStyle.copyWith(
-                fontSize: 16,
+  Widget inputEmail() {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Email Address',
+            style: greyTextStyle.copyWith(
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          TextFormField(
+            controller: emailController,
+            cursorColor: primaryColor,
+            onChanged: (value) {
+              setState(() {});
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
+              fillColor: Color(0xffF1F0F5),
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
               ),
-            ),
-            SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              controller: motivationController,
-              cursorColor: primaryColor,
-              onChanged: (value) {
-                setState(() {});
-              },
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
-                fillColor: Color(0xffF1F0F5),
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide(
+                  color: EmailValidator.validate(emailController.text)
+                      ? primaryColor
+                      : Colors.red,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide(
-                    color: primaryColor,
-                  ),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                hintText: '',
               ),
-              style: purpleTextStyle,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: '',
             ),
-          ],
-        ),
-      );
-    }
+            style: EmailValidator.validate(emailController.text)
+                ? purpleTextStyle
+                : redTextStyle,
+          ),
+        ],
+      ),
+    );
+  }
 
-    Widget signUpButton() {
-      return Container(
-        margin: EdgeInsets.only(top: 40),
-        height: 45,
-        width: double.infinity,
-        child: TextButton(
-          onPressed: () async {
+  Widget inputPassword() {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Password',
+            style: greyTextStyle.copyWith(
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          TextFormField(
+            controller: passwordController,
+            cursorColor: primaryColor,
+            obscureText: true,
+            onChanged: (value) {
+              setState(() {});
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
+              fillColor: Color(0xffF1F0F5),
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide(
+                  color: primaryColor,
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: '',
+            ),
+            style: purpleTextStyle,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget inputGoal() {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Your Goal',
+            style: greyTextStyle.copyWith(
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          TextFormField(
+            controller: motivationController,
+            cursorColor: primaryColor,
+            onChanged: (value) {
+              setState(() {});
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 28, bottom: 20, top: 20),
+              fillColor: Color(0xffF1F0F5),
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide(
+                  color: primaryColor,
+                ),
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              hintText: '',
+            ),
+            style: purpleTextStyle,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget signUpButton(AuthProvider authProvider, UserProvider userProvider) {
+    return Container(
+      margin: EdgeInsets.only(top: 40),
+      height: 45,
+      width: double.infinity,
+      child: isLoading
+          ? Center(child: CircularProgressIndicator(),)
+          : TextButton(
+        onPressed: () async {
+          if (nameController.text.isEmpty ||
+              emailController.text.isEmpty ||
+              passwordController.text.isEmpty ||
+              motivationController.text.isEmpty) {
+            showError('semua fields harus diisi!');
+          } else {
+            setState(() {
+              isLoading = true;
+            });
+
             UserModel? user = await authProvider.register(
               emailController.text,
               passwordController.text,
@@ -320,57 +329,68 @@ class _SignUpPageState extends State<SignUpPage> {
               motivationController.text,
             );
 
+            setState(() {
+              isLoading = false;
+            });
             //jika user null
             if (user == null) {
-              showError('email sudah terdaftar!');
+              showError('akun sudah terdaftar!');
             } else {
               userProvider.user = user;
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 '/home',
-                (route) => false,
+                    (route) => false,
               );
             }
+          }
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: primaryColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(66),
+          ),
+        ),
+        child: Text(
+          'Sign Up',
+          style: whiteTextStyle.copyWith(
+            fontWeight: medium,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget signInButton() {
+    return Container(
+      margin: EdgeInsets.only(top: 20, bottom: 20),
+      child: Center(
+        child: TextButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/sign-in');
           },
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(66),
-            ),
-          ),
           child: Text(
-            'Sign Up',
-            style: whiteTextStyle.copyWith(
-              fontWeight: medium,
+            'Back to Sign In',
+            style: greyTextStyle.copyWith(
+              fontWeight: light,
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
+  }
 
-    Widget signInButton() {
-      return Container(
-        margin: EdgeInsets.only(top: 20, bottom: 20),
-        child: Center(
-          child: TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/sign-in');
-            },
-            child: Text(
-              'Back to Sign In',
-              style: greyTextStyle.copyWith(
-                fontWeight: light,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
+  @override
+  Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery
+              .of(context)
+              .size
+              .width,
           padding: EdgeInsets.symmetric(
             horizontal: defaultMargin,
           ),
@@ -382,7 +402,7 @@ class _SignUpPageState extends State<SignUpPage> {
               inputEmail(),
               inputPassword(),
               inputGoal(),
-              signUpButton(),
+              signUpButton(authProvider, userProvider),
               signInButton(),
             ],
           ),

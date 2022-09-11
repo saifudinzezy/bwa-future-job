@@ -3,7 +3,7 @@ import 'package:future_jobs/theme.dart';
 
 import '../pages/category_page.dart';
 
-class CategoryCard extends StatelessWidget{
+class CategoryCard extends StatelessWidget {
   final String name;
   final String imageUrl;
 
@@ -12,7 +12,7 @@ class CategoryCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -28,17 +28,15 @@ class CategoryCard extends StatelessWidget{
         width: 150,
         height: 200,
         decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                    imageUrl
-                )
-            )
+          image: DecorationImage(
+            image: NetworkImage(imageUrl),
+          ),
         ),
         child: Align(
           alignment: Alignment.bottomLeft,
           child: Padding(
             padding:
-            const EdgeInsets.only(top: 15, left: 10, bottom: 15, right: 10),
+                const EdgeInsets.only(top: 15, left: 10, bottom: 15, right: 10),
             child: Text(
               name,
               style: whiteTextStyle.copyWith(

@@ -190,6 +190,8 @@ class _SignInPageState extends State<SignInPage> {
                     if (user == null) {
                       showError('email atau password salah!');
                     } else {
+                      //init data ke provider
+                      userProvider.user = user;
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/home',

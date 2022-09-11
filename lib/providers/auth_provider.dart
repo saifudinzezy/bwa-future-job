@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:future_jobs/models/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:future_jobs/helper/Constant.dart';
 
 class AuthProvider with ChangeNotifier {
   final String BASE_URL = "https://bwa-jobs.herokuapp.com";
@@ -23,7 +24,7 @@ class AuthProvider with ChangeNotifier {
       };
       print(body);
       var response = await http.post(
-        Uri.parse('$BASE_URL/register'),
+        Uri.parse('${Contant().BASE_URL}/register'),
         body: body,
       );
 
@@ -54,7 +55,7 @@ class AuthProvider with ChangeNotifier {
       };
       print(body);
       var response = await http.post(
-        Uri.parse('$BASE_URL/login'),
+        Uri.parse('${Contant().BASE_URL}/login'),
         body: body,
       );
 

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:future_jobs/models/Category_model.dart';
+import 'package:future_jobs/providers/category_provider.dart';
+import 'package:future_jobs/providers/user_provider.dart';
 import 'package:future_jobs/theme.dart';
 import 'package:future_jobs/widgets/category_card.dart';
 import 'package:future_jobs/widgets/job_tile.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
+    var categoryProvider = Provider.of<CategoryProvider>(context);
+
     Widget header() {
       return SafeArea(
         child: Container(
@@ -20,7 +27,7 @@ class HomePage extends StatelessWidget {
                     style: greyTextStyle.copyWith(fontSize: 16),
                   ),
                   Text(
-                    'Jason Powell',
+                    userProvider.user.name,
                     style: blackTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: semiBold,
@@ -61,31 +68,29 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    CategoryCard(
-                      imageUrl: 'assets/image_category1.png',
-                      name: 'Web Developer',
-                    ),
-                    CategoryCard(
-                      imageUrl: 'assets/image_category2.png',
-                      name: 'Mobile Developer',
-                    ),
-                    CategoryCard(
-                      imageUrl: 'assets/image_category3.png',
-                      name: 'App Designer',
-                    ),
-                    CategoryCard(
-                      imageUrl: 'assets/image_category4.png',
-                      name: 'Content Writer',
-                    ),
-                    CategoryCard(
-                      imageUrl: 'assets/image_category5.png',
-                      name: 'Video Grapher',
-                    ),
-                  ],
+              Container(
+                height: 200,
+                child: FutureBuilder<List<CategoryModel>>(
+                  future: categoryProvider.getCategories(),
+                  builder: (context, snapshot) {
+                    print(snapshot.data);
+                    //jika connection builder sudah selesai
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: snapshot.data!
+                            .map(
+                              (category) => CategoryCard(
+                                  name: category.name,
+                                  imageUrl: category.imageUrl),
+                            )
+                            .toList(),
+                      );
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
                 ),
               ),
               SizedBox(

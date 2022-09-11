@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:future_jobs/theme.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
+import '../models/user_model.dart';
+import '../providers/auth_provider.dart';
+import '../providers/user_provider.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -9,11 +13,24 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   bool isEmailValid = true;
-  TextEditingController emailController = TextEditingController(text: '');
-  TextEditingController passwordController = TextEditingController(text: '');
+  bool isLoading = false;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+
+    void showError(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: redColor,
+          content: Text(message),
+        ),
+      );
+    }
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(top: 30),
@@ -70,33 +87,34 @@ class _SignInPageState extends State<SignInPage> {
             ),
             TextFormField(
               controller: emailController,
-              onChanged: (value){
+              onChanged: (value) {
                 print(value);
                 bool isValid = EmailValidator.validate(value);
                 print(isValid);
-                if(isValid){
-                  setState((){
+                if (isValid) {
+                  setState(() {
                     isEmailValid = true;
                   });
                 } else {
-                  setState((){
+                  setState(() {
                     isEmailValid = false;
                   });
                 }
               },
               cursorColor: primaryColor,
-              style: isEmailValid ? purpleTextStyle.copyWith() : redTextStyle.copyWith(),
+              style: isEmailValid
+                  ? purpleTextStyle.copyWith()
+                  : redTextStyle.copyWith(),
               decoration: InputDecoration(
-                  fillColor: inputFieldColor,
-                  filled: true,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide.none
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(color: isEmailValid ? primaryColor : redColor)
-                  ),
+                fillColor: inputFieldColor,
+                filled: true,
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    borderSide: BorderSide.none),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(100),
+                    borderSide: BorderSide(
+                        color: isEmailValid ? primaryColor : redColor)),
                 hintText: '',
               ),
             ),
@@ -132,12 +150,10 @@ class _SignInPageState extends State<SignInPage> {
                 filled: true,
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
-                    borderSide: BorderSide.none
-                ),
+                    borderSide: BorderSide.none),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
-                    borderSide: BorderSide(color: primaryColor)
-                ),
+                    borderSide: BorderSide(color: primaryColor)),
                 hintText: '',
               ),
             ),
@@ -151,27 +167,50 @@ class _SignInPageState extends State<SignInPage> {
         height: 45,
         width: double.infinity,
         margin: EdgeInsets.only(top: 40),
-        child: TextButton(
-          onPressed: () async {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/home',
-                  (route) => false,
-            );
-          },
-          style: TextButton.styleFrom(
-            backgroundColor: primaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(66),
-            ),
-          ),
-          child: Text(
-            'Sign In',
-            style: whiteTextStyle.copyWith(
-              fontWeight: medium,
-            ),
-          ),
-        ),
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : TextButton(
+                onPressed: () async {
+                  if (emailController.text.isEmpty ||
+                      passwordController.text.isEmpty) {
+                    showError('semua field harus diisi!');
+                  } else {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    UserModel? user = await authProvider.login(
+                      emailController.text,
+                      passwordController.text,
+                    );
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if (user == null) {
+                      showError('email atau password salah!');
+                    } else {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/home',
+                        (route) => false,
+                      );
+                    }
+                  }
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(66),
+                  ),
+                ),
+                child: Text(
+                  'Sign In',
+                  style: whiteTextStyle.copyWith(
+                    fontWeight: medium,
+                  ),
+                ),
+              ),
       );
     }
 

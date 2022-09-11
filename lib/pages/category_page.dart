@@ -80,7 +80,7 @@ class CategoryPage extends StatelessWidget {
               height: 24,
             ),
             FutureBuilder<List<JobsModel>>(
-                future: jobProvider.getJobs(),
+                future: jobProvider.getJobsByCategory(name),
                 builder: (context, snapshot) {
                   print(snapshot.data);
                   if (snapshot.connectionState == ConnectionState.done) {

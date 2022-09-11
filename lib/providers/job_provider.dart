@@ -34,4 +34,33 @@ class JobProvider with ChangeNotifier {
       return [];
     }
   }
+
+  Future<List<JobsModel>> getJobsByCategory(String category) async {
+    try {
+      //your code
+      var responses = await http.get(
+        Uri.parse("${Contant().BASE_URL}/jobs?category=$category"),
+      );
+
+      print(responses.statusCode);
+      print(responses.body);
+      print('end job');
+
+      if (responses.statusCode == 200) {
+        List<JobsModel> jobs = [];
+        List parsedJson = jsonDecode(responses.body);
+
+        parsedJson.forEach((job) {
+          jobs.add(JobsModel.fromJson(job));
+        });
+
+        return jobs;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
 }

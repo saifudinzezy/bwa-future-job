@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:future_jobs/models/Jobs_model.dart';
 import 'package:future_jobs/theme.dart';
 
 class DetailPage extends StatefulWidget {
+  late JobsModel job;
+
+  DetailPage(this.job);
+
   @override
   _DetailPageState createState() => _DetailPageState();
 }
@@ -20,32 +25,32 @@ class _DetailPageState extends State<DetailPage> {
           children: [
             isApplied
                 ? Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(bottom: 30),
-              padding: EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 8,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(48),
-                color: Color(0xffECEDF1),
-              ),
-              child: Text(
-                'You have applied this job and the\nrecruiter will contact you',
-                textAlign: TextAlign.center,
-                style: greyTextStyle.copyWith(),
-              ),
-            )
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 30),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(48),
+                      color: Color(0xffECEDF1),
+                    ),
+                    child: Text(
+                      'You have applied this job and the\nrecruiter will contact you',
+                      textAlign: TextAlign.center,
+                      style: greyTextStyle.copyWith(),
+                    ),
+                  )
                 : Container(),
-            Image.asset(
-              'assets/icon_google.png',
+            Image.network(
+              widget.job.companyLogo,
               width: 60,
             ),
             SizedBox(
               height: 20,
             ),
             Text(
-              'Front-End Developer',
+              widget.job.name,
               style: blackTextStyle.copyWith(
                 fontSize: 20,
                 fontWeight: semiBold,
@@ -55,7 +60,7 @@ class _DetailPageState extends State<DetailPage> {
               height: 2,
             ),
             Text(
-              'Google, Inc • Jakarta',
+              '${widget.job.companyName} • ${widget.job.location}',
               style: greyTextStyle,
             ),
           ],
@@ -107,14 +112,11 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
             Column(
-              children: [
-                detailItem(
-                  'Full-Time On Site',
-                ),
-                detailItem(
-                  'Start at \$18,000 per month',
-                ),
-              ],
+              children: widget.job.about
+                  .map(
+                    (text) => detailItem(text),
+                  )
+                  .toList(),
             ),
           ],
         ),
@@ -136,17 +138,11 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
             Column(
-              children: [
-                detailItem(
-                  'Candidate must possess at least a Bachelor\'s Degree.',
-                ),
-                detailItem(
-                  'Able to use Microsoft Office and Google based service.',
-                ),
-                detailItem(
-                  'Have an excellent time management, good at organized and details',
-                ),
-              ],
+              children: widget.job.qualifications
+                  .map(
+                    (text) => detailItem(text),
+                  )
+                  .toList(),
             ),
           ],
         ),
@@ -168,14 +164,11 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
             Column(
-              children: [
-                detailItem(
-                  'Initiate and promote any programs, events, training, or activities.',
-                ),
-                detailItem(
-                  'Assessing and anticipating needs and collaborate with Division.',
-                ),
-              ],
+              children: widget.job.responsibilities
+                  .map(
+                    (text) => detailItem(text),
+                  )
+                  .toList(),
             ),
           ],
         ),
